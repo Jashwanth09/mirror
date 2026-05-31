@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import PromptInput from '../components/PromptInput'
+import SignalLabel from '../components/SignalLabel'
 
 export default function ChatPage() {
   const [messages, setMessages] = useState([])
@@ -11,6 +12,13 @@ export default function ChatPage() {
     "Write a strategy recommendation for AI adoption"
   ]
 
+  const getSignalLabelForPrompt = (prompt) => {
+    if (prompt.includes("finance to PM")) return "debated"
+    if (prompt.includes("remote work")) return "logical_guess"
+    if (prompt.includes("AI adoption")) return "widely_agreed"
+    return "logical_guess"
+  }
+
   const handlePresetClick = (prompt) => {
     setInputValue(prompt)
   }
@@ -19,7 +27,18 @@ export default function ChatPage() {
     e.preventDefault()
     if (!inputValue.trim()) return
 
-    setMessages([...messages, { role: 'user', content: inputValue }])
+    const userMessage = { role: 'user', content: inputValue }
+    const signalLabel = getSignalLabelForPrompt(inputValue)
+    
+    setMessages([
+      ...messages,
+      userMessage,
+      { 
+        role: 'assistant', 
+        content: 'This is a test response for Phase 3.',
+        signalLabel: signalLabel
+      }
+    ])
     setInputValue('')
   }
 
@@ -58,6 +77,9 @@ export default function ChatPage() {
                     : 'bg-white text-gray-800 border border-gray-200'
                 }`}
               >
+                {message.role === 'assistant' && message.signalLabel && (
+                  <SignalLabel type={message.signalLabel} />
+                )}
                 {message.content}
               </div>
             </div>

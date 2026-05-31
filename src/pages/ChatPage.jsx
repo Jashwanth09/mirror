@@ -1,10 +1,12 @@
 import { useState } from 'react'
 import PromptInput from '../components/PromptInput'
 import SignalLabel from '../components/SignalLabel'
+import { getMirrorResponse } from '../lib/groq'
 
 export default function ChatPage() {
   const [messages, setMessages] = useState([])
   const [inputValue, setInputValue] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
 
   const presetPrompts = [
     "Should I transition from finance to PM?",
@@ -12,34 +14,45 @@ export default function ChatPage() {
     "Write a strategy recommendation for AI adoption"
   ]
 
-  const getSignalLabelForPrompt = (prompt) => {
-    if (prompt.includes("finance to PM")) return "debated"
-    if (prompt.includes("remote work")) return "logical_guess"
-    if (prompt.includes("AI adoption")) return "widely_agreed"
-    return "logical_guess"
-  }
-
   const handlePresetClick = (prompt) => {
     setInputValue(prompt)
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     if (!inputValue.trim()) return
 
     const userMessage = { role: 'user', content: inputValue }
-    const signalLabel = getSignalLabelForPrompt(inputValue)
-    
-    setMessages([
-      ...messages,
-      userMessage,
-      { 
-        role: 'assistant', 
-        content: 'This is a test response for Phase 3.',
-        signalLabel: signalLabel
-      }
-    ])
+    setMessages([...messages, userMessage])
     setInputValue('')
+    setIsLoading(true)
+
+    try {
+      const response = await getMirrorResponse(userMessage.content)
+      setMessages(prev => [
+        ...prev,
+        {
+          role: 'assistant',
+          content: response.response,
+          signalLabel: response.signal_label,
+          signalReason: response.signal_reason,
+          dependencies: response.dependencies,
+          weakPoints: response.weak_points,
+          domain: response.domain
+        }
+      ])
+    } catch (error) {
+      setMessages(prev => [
+        ...prev,
+        {
+          role: 'assistant',
+          content: 'Mirror could not process this. Try again.',
+          signalLabel: 'logical_guess'
+        }
+      ])
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -84,6 +97,16 @@ export default function ChatPage() {
               </div>
             </div>
           ))}
+          {isLoading && (
+            <div className="flex justify-start">
+              <div className="max-w-[80%] px-4 py-2 rounded-lg bg-gray-100 border border-gray-200 animate-pulse">
+                <div className="h-4 bg-gray-300 rounded mb-2"></div>
+                <div className="h-4 bg-gray-300 rounded mb-2"></div>
+                <div className="h-4 bg-gray-300 rounded w-3/4"></div>
+                <p className="text-xs text-gray-500 mt-2">Mirror is thinking...</p>
+              </div>
+            </div>
+          )}
         </div>
 
         <PromptInput

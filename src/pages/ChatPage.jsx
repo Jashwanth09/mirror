@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import PromptInput from '../components/PromptInput'
-import SignalLabel from '../components/SignalLabel'
+import AIResponse from '../components/AIResponse'
 import { getMirrorResponse } from '../lib/groq'
 
 export default function ChatPage() {
@@ -83,18 +83,13 @@ export default function ChatPage() {
               key={index}
               className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
             >
-              <div
-                className={`max-w-[80%] px-4 py-2 rounded-lg ${
-                  message.role === 'user'
-                    ? 'bg-blue-500 text-white'
-                    : 'bg-white text-gray-800 border border-gray-200'
-                }`}
-              >
-                {message.role === 'assistant' && message.signalLabel && (
-                  <SignalLabel type={message.signalLabel} />
-                )}
-                {message.content}
-              </div>
+              {message.role === 'user' ? (
+                <div className="max-w-[80%] px-4 py-2 rounded-lg bg-blue-500 text-white">
+                  {message.content}
+                </div>
+              ) : (
+                <AIResponse response={message} />
+              )}
             </div>
           ))}
           {isLoading && (

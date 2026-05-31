@@ -1,8 +1,17 @@
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import ChatPage from './pages/ChatPage'
+import CalibrationPage from './pages/CalibrationPage'
+import TopNav from './components/TopNav'
+
 function App() {
   return (
-    <div className="min-h-screen bg-gray-50">
-      <h1 className="text-3xl font-bold text-center pt-10">Mirror</h1>
-    </div>
+    <BrowserRouter>
+      <TopNav />
+      <Routes>
+        <Route path="/" element={<ChatPage />} />
+        <Route path="/calibration" element={<CalibrationPage />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 

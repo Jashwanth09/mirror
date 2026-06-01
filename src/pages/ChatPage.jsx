@@ -1,12 +1,20 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import PromptInput from '../components/PromptInput'
 import AIResponse from '../components/AIResponse'
 import { getMirrorResponse } from '../lib/groq'
+import { saveInteraction } from '../lib/supabase'
 
 export default function ChatPage() {
   const [messages, setMessages] = useState([])
   const [inputValue, setInputValue] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [sessionId] = useState(() => {
+    const existing = localStorage.getItem('mirror_session_id')
+    if (existing) return existing
+    const newId = crypto.randomUUID()
+    localStorage.setItem('mirror_session_id', newId)
+    return newId
+  })
 
   const presetPrompts = [
     "Should I transition from finance to PM?",
@@ -29,18 +37,26 @@ export default function ChatPage() {
 
     try {
       const response = await getMirrorResponse(userMessage.content)
-      setMessages(prev => [
-        ...prev,
-        {
-          role: 'assistant',
-          content: response.response,
-          signalLabel: response.signal_label,
-          signalReason: response.signal_reason,
-          dependencies: response.dependencies,
-          weakPoints: response.weak_points,
-          domain: response.domain
-        }
-      ])
+      const savedInteraction = await saveInteraction({
+        session_id: sessionId,
+        domain: response.domain,
+        label_type: response.signal_label,
+        dependencies_clicked: 0,
+        total_dependencies: response.dependencies?.length || 3,
+        output_copied: false
+      })
+
+      const assistantMessage = {
+        role: 'assistant',
+        content: response.response,
+        signalLabel: response.signal_label,
+        signalReason: response.signal_reason,
+        dependencies: response.dependencies,
+        weakPoints: response.weak_points,
+        domain: response.domain,
+        interactionId: savedInteraction?.id || null
+      }
+      setMessages(prev => [...prev, assistantMessage])
     } catch (error) {
       setMessages(prev => [
         ...prev,

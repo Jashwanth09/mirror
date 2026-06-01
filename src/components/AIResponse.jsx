@@ -8,7 +8,7 @@ export default function AIResponse({ response }) {
       <SignalLabel type={response.signalLabel} />
       <WeakPointText text={response.content} weakPoints={response.weakPoints || []} />
       {response.dependencies && response.dependencies.length > 0 && (
-        <DependencyView dependencies={response.dependencies} />
+        <DependencyView dependencies={response.dependencies} interactionId={response.interactionId} />
       )}
     </div>
   )

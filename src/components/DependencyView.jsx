@@ -1,10 +1,16 @@
 import { useState } from 'react'
+import { updateDependencyClick } from '../lib/supabase'
 
-export default function DependencyView({ dependencies }) {
+export default function DependencyView({ dependencies, interactionId }) {
   const [expandedIndex, setExpandedIndex] = useState(null)
 
   const toggleExpand = (index) => {
-    setExpandedIndex(expandedIndex === index ? null : index)
+    const wasExpanded = expandedIndex === index
+    setExpandedIndex(wasExpanded ? null : index)
+    
+    if (!wasExpanded && interactionId) {
+      updateDependencyClick(interactionId)
+    }
   }
 
   return (

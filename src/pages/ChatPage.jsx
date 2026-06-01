@@ -17,13 +17,13 @@ export default function ChatPage() {
   })
 
   const presetPrompts = [
-    "Should I transition from finance to PM?",
-    "What does research say about remote work?",
-    "Write a strategy recommendation for AI adoption"
+    { emoji: "💼", text: "Finance → PM transition", prompt: "Should I transition from finance to PM?" },
+    { emoji: "🔬", text: "Remote work research", prompt: "What does research say about remote work?" },
+    { emoji: "📋", text: "AI tools strategy", prompt: "Write a strategy recommendation for AI adoption" }
   ]
 
-  const handlePresetClick = (prompt) => {
-    setInputValue(prompt)
+  const handlePresetClick = (preset) => {
+    setInputValue(preset.prompt)
   }
 
   const handleSubmit = async (e) => {
@@ -75,13 +75,14 @@ export default function ChatPage() {
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-2xl mx-auto px-4 py-8">
         <div className="space-y-3 mb-8">
-          {presetPrompts.map((prompt, index) => (
+          {presetPrompts.map((preset, index) => (
             <button
               key={index}
-              onClick={() => handlePresetClick(prompt)}
+              onClick={() => handlePresetClick(preset)}
               className="w-full text-left px-4 py-3 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
             >
-              {prompt}
+              <span className="mr-2">{preset.emoji}</span>
+              {preset.text}
             </button>
           ))}
         </div>

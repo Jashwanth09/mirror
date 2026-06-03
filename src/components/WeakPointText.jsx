@@ -14,14 +14,14 @@ export default function WeakPointText({ text, weakPoints }) {
   })
 
   return (
-    <p className="text-sm leading-relaxed text-gray-800">
+    <p className="text-[15px] leading-[1.7] text-[#1A1A1A]">
       {parts.map((part, i) =>
         part.isWeak ? (
           <span key={i} className="relative group">
-            <span className="underline decoration-amber-400 decoration-2 cursor-help bg-amber-50">
+            <span className="underline decoration-[#D97757] decoration-2 cursor-help bg-[#FAEEDA] rounded-[2px] px-[2px]">
               {part.text}
             </span>
-            <span className="absolute bottom-full left-0 mb-1 hidden group-hover:block w-56 bg-white border border-gray-200 rounded p-2 text-xs text-gray-600 shadow-sm z-10">
+            <span className="absolute bottom-full left-0 mb-1 hidden group-hover:block w-[240px] bg-[#FFFFFF] border border-[#E5E5E5] rounded-lg p-2 text-[12px] text-[#6B6B6B] shadow-[0_4px_12px_rgba(0,0,0,0.08)] z-50">
               ⚠️ {part.reason}
             </span>
           </span>

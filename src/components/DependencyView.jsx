@@ -14,29 +14,29 @@ export default function DependencyView({ dependencies, interactionId }) {
   }
 
   return (
-    <div className="mt-4 border border-gray-200 rounded-lg bg-white">
-      <div className="bg-gray-50 px-4 py-2 border-b border-gray-200">
-        <h3 className="text-xs font-semibold uppercase text-gray-600">This answer depends on</h3>
+    <div className="mt-4 border border-[#E5E5E5] rounded-xl overflow-hidden">
+      <div className="bg-[#F5F5F0] px-4 py-[10px] border-b border-[#E5E5E5]">
+        <h3 className="text-[11px] font-medium uppercase text-[#6B6B6B] tracking-[0.06em]">This answer depends on</h3>
       </div>
       {dependencies.map((dep, index) => (
-        <div key={index} className="border-b border-gray-200 last:border-b-0">
-          <div className="px-4 py-3">
+        <div key={index} className="border-t border-[#E5E5E5] last:border-t-0">
+          <div className="px-4 py-[14px]">
             <div className="flex items-start gap-2">
-              <span className={`mt-1 w-2 h-2 rounded-full ${index < 2 ? 'bg-amber-400' : 'bg-green-400'}`} />
+              <span className={`mt-1 w-[6px] h-[6px] rounded-full ${index < 2 ? 'bg-[#D97757]' : 'bg-[#27500A]'}`} />
               <div className="flex-1">
-                <p className="text-sm text-gray-800 font-medium">{dep.assumption}</p>
-                <p className="text-xs text-gray-500 mt-1">{dep.consequence}</p>
+                <p className="text-[13px] font-medium text-[#1A1A1A]">{dep.assumption}</p>
+                <p className="text-[12px] text-[#6B6B6B] mt-1 mb-[10px]">{dep.consequence}</p>
                 <button
                   onClick={() => toggleExpand(index)}
-                  className="mt-2 text-xs text-blue-600 hover:text-blue-800 font-medium"
+                  className="text-[12px] text-[#D97757] bg-none border-none cursor-pointer hover:text-[#C4663F]"
                 >
                   {expandedIndex === index ? 'Hide alternate version' : 'See version without this'}
                 </button>
               </div>
             </div>
             {expandedIndex === index && (
-              <div className="mt-3 ml-4 p-3 bg-green-50 border border-green-200 rounded">
-                <p className="text-sm text-gray-700">{dep.alternative}</p>
+              <div className="mt-[10px] ml-4 p-3 bg-[#EAF3DE] border border-[#C0DD97] rounded-lg">
+                <p className="text-[13px] text-[#27500A] leading-[1.6]">{dep.alternative}</p>
               </div>
             )}
           </div>

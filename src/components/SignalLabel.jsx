@@ -3,25 +3,29 @@ export default function SignalLabel({ type }) {
     widely_agreed: {
       emoji: '✅',
       name: 'Widely Agreed',
-      color: 'bg-green-100 text-green-800 border-green-200',
+      bg: '#EAF3DE',
+      text: '#27500A',
       helper: 'Broad agreement exists. Spot-check key claims.'
     },
     logical_guess: {
       emoji: '🔍',
       name: 'Logical Guess',
-      color: 'bg-blue-100 text-blue-800 border-blue-200',
+      bg: '#E6F1FB',
+      text: '#0C447C',
       helper: 'Reasonable inference. Verify before acting.'
     },
     debated: {
       emoji: '⚠️',
       name: 'Debated',
-      color: 'bg-amber-100 text-amber-800 border-amber-200',
+      bg: '#FAEEDA',
+      text: '#633806',
       helper: 'Experts disagree. Find the other perspective.'
     },
     speculative: {
       emoji: '💡',
       name: 'Speculative',
-      color: 'bg-purple-100 text-purple-800 border-purple-200',
+      bg: '#EEEDFE',
+      text: '#3C3489',
       helper: 'Extrapolated. Use as a starting point only.'
     }
   }
@@ -29,12 +33,12 @@ export default function SignalLabel({ type }) {
   const label = labels[type] || labels.logical_guess
 
   return (
-    <div className="mb-4">
-      <div className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium border ${label.color}`}>
-        <span className="mr-2">{label.emoji}</span>
+    <div className="mb-3">
+      <div className="inline-flex items-center gap-[6px] px-3 py-1 rounded-full text-[12px] font-medium" style={{ backgroundColor: label.bg, color: label.text }}>
+        <span>{label.emoji}</span>
         {label.name}
       </div>
-      <p className="text-xs text-gray-600 mt-1 ml-1">{label.helper}</p>
+      <p className="text-[11px] text-[#6B6B6B] mt-1 ml-1">{label.helper}</p>
     </div>
   )
 }

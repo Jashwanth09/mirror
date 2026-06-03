@@ -17,9 +17,9 @@ export default function ChatPage() {
   })
 
   const presetPrompts = [
-    { emoji: "💼", text: "Finance → PM transition", prompt: "Should I transition from finance to PM?" },
-    { emoji: "🔬", text: "Remote work research", prompt: "What does research say about remote work?" },
-    { emoji: "📋", text: "AI tools strategy", prompt: "Write a strategy recommendation for AI adoption" }
+    { emoji: "💼", text: "Should I transition from finance to PM?", prompt: "Should I transition from finance to PM?" },
+    { emoji: "🔬", text: "Remote work impact on junior employees?", prompt: "What does research say about remote work?" },
+    { emoji: "📋", text: "AI tools strategy for content team?", prompt: "Write a strategy recommendation for AI adoption" }
   ]
 
   const handlePresetClick = (preset) => {
@@ -72,14 +72,14 @@ export default function ChatPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-2xl mx-auto px-4 py-8">
-        <div className="space-y-3 mb-8">
+    <div className="min-h-screen bg-[#FFFFFF] pt-[52px]">
+      <div className="max-w-[720px] mx-auto px-4 py-6 pb-[120px]">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-2 mb-8">
           {presetPrompts.map((preset, index) => (
             <button
               key={index}
               onClick={() => handlePresetClick(preset)}
-              className="w-full text-left px-4 py-3 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+              className="text-left px-4 py-3 bg-[#F5F5F0] border border-[#E5E5E5] rounded-xl text-[13px] text-[#1A1A1A] hover:bg-[#EBEBEB] transition-colors"
             >
               <span className="mr-2">{preset.emoji}</span>
               {preset.text}
@@ -87,12 +87,12 @@ export default function ChatPage() {
           ))}
         </div>
 
-        <div className="space-y-4 mb-8">
+        <div className="space-y-6">
           {messages.length === 0 && (
-            <div className="text-center text-gray-500 py-12">
-              <h2 className="text-2xl font-semibold mb-2">Mirror</h2>
-              <p>Ask something high-stakes.</p>
-              <p>Mirror will show you what the answer depends on.</p>
+            <div className="text-center text-[#6B6B6B] py-12">
+              <h2 className="text-[24px] font-semibold mb-2 text-[#1A1A1A]">Mirror</h2>
+              <p className="text-[15px]">Ask something high-stakes.</p>
+              <p className="text-[15px]">Mirror will show you what the answer depends on.</p>
             </div>
           )}
           {messages.map((message, index) => (
@@ -101,7 +101,7 @@ export default function ChatPage() {
               className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
             >
               {message.role === 'user' ? (
-                <div className="max-w-[80%] px-4 py-2 rounded-lg bg-blue-500 text-white">
+                <div className="max-w-[80%] px-4 py-3 rounded-[18px_18px_4px_18px] bg-[#F5F5F0] text-[#1A1A1A] text-[15px] ml-auto">
                   {message.content}
                 </div>
               ) : (
@@ -111,11 +111,13 @@ export default function ChatPage() {
           ))}
           {isLoading && (
             <div className="flex justify-start">
-              <div className="max-w-[80%] px-4 py-2 rounded-lg bg-gray-100 border border-gray-200 animate-pulse">
-                <div className="h-4 bg-gray-300 rounded mb-2"></div>
-                <div className="h-4 bg-gray-300 rounded mb-2"></div>
-                <div className="h-4 bg-gray-300 rounded w-3/4"></div>
-                <p className="text-xs text-gray-500 mt-2">Mirror is thinking...</p>
+              <div className="max-w-[80%]">
+                <p className="text-[13px] text-[#6B6B6B] mb-3">Mirror is thinking...</p>
+                <div className="space-y-2">
+                  <div className="h-4 rounded-[4px] bg-gradient-to-r from-[#F5F5F0] via-[#EBEBEB] to-[#F5F5F0] animate-pulse" style={{ width: '100%' }}></div>
+                  <div className="h-4 rounded-[4px] bg-gradient-to-r from-[#F5F5F0] via-[#EBEBEB] to-[#F5F5F0] animate-pulse" style={{ width: '100%' }}></div>
+                  <div className="h-2.5 rounded-[4px] bg-gradient-to-r from-[#F5F5F0] via-[#EBEBEB] to-[#F5F5F0] animate-pulse" style={{ width: '75%' }}></div>
+                </div>
               </div>
             </div>
           )}

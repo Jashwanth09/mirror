@@ -9,7 +9,10 @@ export default function DependencyView({ dependencies, interactionId }) {
     setExpandedIndex(wasExpanded ? null : index)
     
     if (!wasExpanded && interactionId) {
+      console.log('dependency clicked, updating supabase', { interactionId, index })
       updateDependencyClick(interactionId)
+    } else if (!wasExpanded && !interactionId) {
+      console.log('dependency clicked but no interactionId available', { interactionId, index })
     }
   }
 

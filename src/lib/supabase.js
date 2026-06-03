@@ -25,11 +25,31 @@ export async function saveInteraction(data) {
 
 export async function updateDependencyClick(id) {
   try {
+    console.log('Updating dependency click for interaction:', id)
+    const { data: current, error: fetchError } = await supabase
+      .from('interactions')
+      .select('dependencies_clicked')
+      .eq('id', id)
+      .single()
+    
+    if (fetchError) {
+      console.error('Supabase fetch error:', fetchError)
+      return
+    }
+    
+    const newValue = (current.dependencies_clicked || 0) + 1
+    console.log('Current dependencies_clicked:', current.dependencies_clicked, 'New value:', newValue)
+    
     const { error } = await supabase
       .from('interactions')
-      .update({ dependencies_clicked: supabase.raw('dependencies_clicked + 1') })
+      .update({ dependencies_clicked: newValue })
       .eq('id', id)
-    if (error) console.error('Supabase error:', error)
+    
+    if (error) {
+      console.error('Supabase update error:', error)
+    } else {
+      console.log('Successfully updated dependencies_clicked to:', newValue)
+    }
   } catch (e) {
     console.error('Supabase update error:', e)
   }

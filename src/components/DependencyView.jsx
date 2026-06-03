@@ -4,9 +4,13 @@ import { updateDependencyClick } from '../lib/supabase'
 export default function DependencyView({ dependencies, interactionId }) {
   const [expandedIndex, setExpandedIndex] = useState(null)
 
+  console.log('DependencyView rendered with interactionId:', interactionId)
+
   const toggleExpand = (index) => {
     const wasExpanded = expandedIndex === index
     setExpandedIndex(wasExpanded ? null : index)
+    
+    console.log('toggleExpand called:', { wasExpanded, interactionId, index })
     
     if (!wasExpanded && interactionId) {
       console.log('dependency clicked, updating supabase', { interactionId, index })

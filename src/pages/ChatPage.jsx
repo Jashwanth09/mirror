@@ -46,6 +46,10 @@ export default function ChatPage() {
         output_copied: false
       })
 
+      console.log('Saved interaction:', savedInteraction)
+      const interactionId = savedInteraction?.id || null
+      console.log('Using interactionId:', interactionId)
+
       const assistantMessage = {
         role: 'assistant',
         content: response.response,
@@ -54,7 +58,7 @@ export default function ChatPage() {
         dependencies: response.dependencies,
         weakPoints: response.weak_points,
         domain: response.domain,
-        interactionId: savedInteraction?.id || null
+        interactionId
       }
       setMessages(prev => [...prev, assistantMessage])
     } catch (error) {

@@ -62,7 +62,7 @@ export default function ChatPage() {
         ...prev,
         {
           role: 'assistant',
-          content: 'Mirror could not process this. Try again.',
+          content: 'Claude Mirror could not process this. Try again.',
           signalLabel: 'logical_guess'
         }
       ])
@@ -90,9 +90,9 @@ export default function ChatPage() {
         <div className="space-y-6">
           {messages.length === 0 && (
             <div className="text-center text-[#6B6B6B] py-12">
-              <h2 className="text-[24px] font-semibold mb-2 text-[#1A1A1A]">Mirror</h2>
+              <h2 className="text-[24px] font-semibold mb-2 text-[#1A1A1A]">Claude Mirror</h2>
               <p className="text-[15px]">Ask something high-stakes.</p>
-              <p className="text-[15px]">Mirror will show you what the answer depends on.</p>
+              <p className="text-[15px]">Claude Mirror will show you what the answer depends on.</p>
             </div>
           )}
           {messages.map((message, index) => (
@@ -112,7 +112,7 @@ export default function ChatPage() {
           {isLoading && (
             <div className="flex justify-start">
               <div className="max-w-[80%]">
-                <p className="text-[13px] text-[#6B6B6B] mb-3">Mirror is thinking...</p>
+                <p className="text-[13px] text-[#6B6B6B] mb-3">Claude Mirror is thinking...</p>
                 <div className="space-y-2">
                   <div className="h-4 rounded-[4px] bg-gradient-to-r from-[#F5F5F0] via-[#EBEBEB] to-[#F5F5F0] animate-pulse" style={{ width: '100%' }}></div>
                   <div className="h-4 rounded-[4px] bg-gradient-to-r from-[#F5F5F0] via-[#EBEBEB] to-[#F5F5F0] animate-pulse" style={{ width: '100%' }}></div>

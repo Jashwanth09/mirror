@@ -1,6 +1,13 @@
 export function detectBlindSpot(interactions, currentDomain) {
   const domainInteractions = interactions.filter(i => i.domain === currentDomain)
   
+  console.log('detectBlindSpot:', {
+    currentDomain,
+    totalDomainInteractions: domainInteractions.length,
+    uncheckedCount: domainInteractions.filter(i => i.dependencies_clicked === 0).length,
+    uncheckedRate: domainInteractions.length > 0 ? (domainInteractions.filter(i => i.dependencies_clicked === 0).length / domainInteractions.length) : 0
+  })
+  
   if (domainInteractions.length < 5) return null
 
   const unchecked = domainInteractions.filter(i => i.dependencies_clicked === 0)
